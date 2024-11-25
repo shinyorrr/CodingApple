@@ -60,13 +60,28 @@ function App() {
     //spread opearator. ES6 문법
     //리액트 대 원칙 : Immutable data
     var newArray = [...title];
-    if(newArray[0].indexOf('남자') > -1){
-      newArray[0] = '여자 코트 추천';
-    }else{
-      newArray[0] = '남자 코트 추천';
-    }
-    setTilte( newArray );
+
+    const updateArray = newArray.map((item) => {
+      if (item.includes('남자 코트 추천')) {
+        return '여자 코트 추천';
+      } else if (item.includes('여자 코트 추천')) {
+        return '남자 코트 추천';
+      }
+      return item;
+
+    });
+
+    setTilte(updateArray);
+   
   }
+
+
+   // if(newArray[0].indexOf('남자') > -1){
+    //   newArray[0] = '여자 코트 추천';
+    // }else{
+    //   newArray[0] = '남자 코트 추천';
+    // }
+    // setTilte( newArray );
 
   function sorting(){
     var copy = [...title];
@@ -89,7 +104,7 @@ function App() {
     likeCopy.push(0);
     setLike(likeCopy);
 
-    setInputText('');
+    //setInputText('');
   }
   return (
     <div className="App">
@@ -168,12 +183,16 @@ function Modal(props){
   //return 안에는 <div>가 병렬적으로 올 수 없음
   //let [index, setIndex] = useState(0); 
   //state를 자식에 만들면 부모-> 자식 전송할 필요x 하지만 최상위에 두는게 보편적
+
+  //&& 연산자를 사용하여 조건이 참일 때만 버튼을 렌더링
   return (
     <div className='modal' style={{background : props.color}}>
         <h2>{props.title[props.index]}</h2>
         <p>날짜</p> 
         <p>상세내용</p>
-        <button onClick={props.changeTitle}>글수정</button>
+        { (props.title[props.index] == '남자 코트 추천' || props.title[props.index] =='여자 코트 추천') &&
+          <button onClick={props.changeTitle}>글수정</button>}
+       
     </div>
   )
 }
